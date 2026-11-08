@@ -5,7 +5,7 @@ Python 반복문으로 그림과 필터의 같은 위치를 곱하고 더하는 
 
 **제출용 프로젝트 URL:** https://github.com/sopa3344/mini-npu-simulator
 
-`main` 브랜치의 `main.py`와 이 README가 필수 제출 파일입니다. 예제 데이터, 검증 코드와 실제 실행 로그도 함께 제공합니다.
+`main` 브랜치의 `main.py`와 이 README가 필수 제출 파일입니다. 예제 데이터와 검증 코드도 함께 제공합니다.
 
 **구현과 자체 검증을 완료했습니다. 교육기관 원본 `data.json`은 제공되지 않아 원본 데이터의 결과는 아직 확인하지 못했습니다.**
 `data.sample.json`과 `data.errors.json`은 이번에 직접 만든 학습용 파일입니다. 원본과 혼동하지 않도록 `data.json`이라는 이름의 대체 파일을 만들지 않았습니다.
@@ -89,8 +89,6 @@ python main.py --generate-sample my-patterns.json --sizes 3 5 7 13 25
 | `data.sample.json` | 직접 생성한 8개 학습 케이스, 정상 패턴 6개와 동점 2개 |
 | `data.errors.json` | 정상 1개와 의도적 데이터/라벨 오류 5개 |
 | `test_main.py` | 표준 라이브러리 unittest 기반 검증 28개 |
-| `STUDY_GUIDE.md` | 그림으로 보는 흐름과 코드 학습 순서 |
-| `evidence/` | 실제 실행 명령, 입력, 출력, 종료 코드와 성능 측정 기록 |
 
 ## 구현 요약
 
@@ -166,15 +164,15 @@ for row in range(size):
 
 검증 날짜는 한국 시간 2026-11-09입니다. 아래 수치는 직접 만든 예제의 실제 실행 결과입니다.
 
-| 검증 대상 | 결과 | 근거 |
+| 검증 대상 | 결과 | 재현 방법 |
 | --- | --- | --- |
-| Python 3.12.14 자동 검증 | 28개 통과 | `evidence/tests-python312.txt` |
-| 사용자 PC의 Python 3.15.2 자동 검증 | 28개 통과 | `evidence/tests-python315.txt` |
-| 정상과 동점 혼합 예제 | 총 8개, PASS 6개, FAIL 2개 | `evidence/json-sample.txt` |
-| 오류 재현 예제 | 총 6개, PASS 1개, FAIL 5개 | `evidence/json-errors.txt` |
-| 직접 입력 X / Cross | B / A 판정 확인 | `evidence/manual-x.txt`, `evidence/manual-cross.txt` |
-| 잘못된 행 입력 | 같은 행 재입력 후 정상 완료 | `evidence/manual-invalid-input.txt` |
-| 직접 입력 동점 | 판정 불가 표시 | `evidence/manual-tie.txt` |
+| Python 3.12.14 자동 검증 | 28개 통과 | `python -m unittest -v` |
+| Python 3.15.2 자동 검증 | 28개 통과 | `python -m unittest -v` |
+| 정상과 동점 혼합 예제 | 총 8개, PASS 6개, FAIL 2개 | `--mode json --data data.sample.json` |
+| 오류 재현 예제 | 총 6개, PASS 1개, FAIL 5개 | `--mode json --data data.errors.json` |
+| 직접 입력 X / Cross | B / A 판정 확인 | 위의 3×3 재현 예시 |
+| 잘못된 행 입력 | 같은 행 재입력 후 정상 완료 | `--mode manual`에서 한 행에 숫자 2개 입력 |
+| 직접 입력 동점 | 판정 불가 표시 | 필터 두 개와 패턴의 모든 칸에 0 입력 |
 | 교육기관 원본 데이터 | 미확인 | 원본 파일 미제공 |
 
 Python 3.8 문법 파싱도 통과했습니다. Python 3.8 인터프리터에서 직접 실행한 결과는 아닙니다.
@@ -260,4 +258,4 @@ Python 리스트는 숫자 원소가 모두 연속 배치된 수치 배열과 �
 - [Python JSON 읽기](https://docs.python.org/3/library/json.html#json.load)
 - [Python unittest](https://docs.python.org/3/library/unittest.html)
 
-이번 과제에서 공부할 순서는 [STUDY_GUIDE.md](STUDY_GUIDE.md)에 정리했습니다.
+코드 공부는 `mac`, `normalize_label`, `decide`, `validate_matrix`, `analyze_case`, `benchmark` 순서로 진행하면 됩니다.
